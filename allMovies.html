@@ -25,10 +25,35 @@
       border-top: 0.05rem solid #e5e5e5;
     }
 
+    #movie-template {
+      margin-bottom: 50px;
+    }
+
     body {
       height: 100%;
       background-color: #060516c1;
     }
+
+    /* Autocomplete dropdown */
+      .autocomplete-items {
+          position: absolute;
+          border: 1px solid #d4d4d4;
+          border-radius: 4px;
+          max-height: 200px;
+          overflow-y: auto;
+          z-index: 99;
+          background-color: white;
+          top: 54px;
+      }
+
+      .autocomplete-item {
+          padding: 5px 10px;
+          cursor: pointer;
+      }
+
+      .autocomplete-item:hover {
+          background-color: #e9e9e9;
+      }
   </style>
 
   <title>Galaxy Cinema</title>
@@ -70,8 +95,10 @@
 
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="search-field">
+        <div id="autocomplete-dropdown" class="autocomplete-items" style="display: none;"></div>
+
+        <button class="btn btn-outline btn-secondary my-2 my-sm-0" id="search-btn" type="submit">Search</button>
       </form>
       <div class="d-flex justify-content-end">
         <a href="#" class="btn btn-primary ">Login</a>
@@ -84,425 +111,29 @@
   <br>
   <br>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/1/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Fury</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Brad Pitt</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">War, Action, Drama </span>
-        </p>
-        <br>
-        <br>
-        <br>
+  <div class="container" id="movies-container">
+    <div class="row" id="movie-template" style="display: none;">
+        <div class="col-md-3">
+            <img src="" alt="" id="movie-poster" class="img-thumbnail object-fit-cover">
+        </div>
+        <div class="col-md-8">
+            <h3 class="text-light" id="movie-title"></h3>
+            <p class="text-light">Main protagonist:
+                <br>
+                <span class="badge bg-secondary" id="movie-actor"></span>
+            </p>
+            <p class="text-light">Genre:
+                <br>
+                <span class="badge bg-secondary" id="movie-genre"></span>
+            </p>
+            <br>
+            <br>
+            <br>
 
-        <button type="button" class="btn btn-primary" onclick="viewMore(1)" data-movie-id="1">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
+            <a href="#" class="btn btn-primary" id="movie-link">View More</a>
+            <a href="#" class="btn btn-primary">Book now</a>
+        </div>
     </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/2/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Dawn of the Planet of the Apes</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Andy Serkis</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Science Fiction, Action, Drama, Thriller </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(2)" data-movie-id="2">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/3/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Thor: Love and Thunder</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Chris Hemsworth</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Comedy, Action, Fantasy </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(3)" data-movie-id="3">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/4/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">The Equalizer</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Denzel Washington</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Thriller, Action, Crime </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(4)" data-movie-id="4">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/5/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Shrek</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Mike Myers</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Animation, Adventure, Comedy, Fantasy, Family </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(5)" data-movie-id="5">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/6/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">The Shawshank Redemption</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Tim Robbins</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Drama, Crime, </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(6)" data-movie-id="6">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/7/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Deadpool</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Ryan Reynolds</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Adventure, Action, Comedy</span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(7)" data-movie-id="7">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/8/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Retribution</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Liam Neeson</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Thriller, Action, Crime </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(8)" data-movie-id="8">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/9/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Avatar: The Way of Water</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Sam Worthington</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Adventure, Action, Science Fiction </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(9)" data-movie-id="9">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/10/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Dune</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Timothee Chalame</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Adventure, Science Fiction </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(10)" data-movie-id="10">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/11/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Barbie</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Margot Robbie</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Comedy, Adventure, Fantasy </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(11)" data-movie-id="11">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/12/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Mission: Impossible - Dead Reckoning Part One</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Tom Cruise</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Thriller, Action, </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(12)" data-movie-id="12">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/13/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Gran Turismo</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Archie Madekwe</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Adventure, Action, Drama </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(13)" data-movie-id="13">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/14/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Sound of Freedom</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Jim Caviezel</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Action, Drama </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(14)" data-movie-id="14">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/15/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Guardians of the Galaxy Vol. 3</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Chris Pratt</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Adventure, Action, Science Fiction </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(15)" data-movie-id="15">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/16/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Elemental</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Leah Lewis</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Animation, Adventure, Family, Comedy, Fantasy </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(16)" data-movie-id="16">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/17/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Killers of the Flower Moon</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Leonardo DiCaprio</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Crime, History, Drama </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(17)" data-movie-id="17">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/18/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Indiana Jones and the Dial of Destiny</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Harrison Ford</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Adventure, Action, </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(18)" data-movie-id="18">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-3">
-        <img src="img1/19/poster.jpg" alt="Movie poster" class="img-thumbnail object-fit-cover">
-      </div>
-      <div class="col-md-8">
-        <h3 class="text-light">Dune: Part Two</h3>
-        <p class="text-light">Main protagonist: <br>
-          <span class="badge bg-secondary">Timothee Chalamet</span>
-        </p>
-        <p class="text-light">Genre: <br>
-          <span class="badge bg-secondary">Adventure, Action, Drama </span>
-        </p>
-        <br>
-        <br>
-        <br>
-
-        <button type="button" class="btn btn-primary" onclick="viewMore(19)" data-movie-id="19">View More</button>
-        <a href="#" class="btn btn-primary">Book now</a>
-
-      </div>
-    </div>
-    <br>
   </div>
   <footer class="blog-footer">
     <p>Galaxy Cinema all right reserved.</p>
@@ -510,27 +141,82 @@
     </p>
   </footer>
 
-
-  <div class="container">
-    <div class="row">
-      <div class="col"></div>
-      <div class="col"></div>
-      <div class="col"></div>
-      <div class="col"></div>
-    </div>
-    <div class="row">
-      <div class="col-8"></div>
-      <div class="col-4"></div>
-    </div>
-  </div>
   <!-- Optional JavaScript -->
   <script>
+      const container = document.getElementById("movies-container");
+      const movieTemplate = document.getElementById("movie-template");
+      let moviesData = []; // Store all movies data initially
 
-    function viewMore(movieId) {
-      // Redirect to the template page with the selected movie's ID as a query parameter
-      window.location.href = 'movie-detail.html?movie-id=' + movieId;
-    }
+      fetch('movies1.json').then(response => response.json()).then(data => {
+          moviesData = data; // Store all movies data
+          renderMovies(data); // Render all movies initially
+      }).catch(error => { // Handle any errors that occur
+          console.error("Movies were not found", error);
+      });
 
+      // Function to render movies based on the provided data
+      function renderMovies(data) {
+          container.innerHTML = ""; // Clear previous movies
+
+          data.forEach(movie => {
+              const movieClone = movieTemplate.cloneNode(true);
+             
+
+              movieClone.querySelector('#movie-title').textContent = movie.title;
+              movieClone.querySelector('#movie-actor').textContent = movie.star;
+              movieClone.querySelector('#movie-genre').textContent = movie.genres.join(', ');
+              movieClone.querySelector('#movie-poster').setAttribute('src', movie.poster);
+              movieClone.querySelector('#movie-poster').setAttribute('alt', movie.title);
+              movieClone.querySelector('#movie-link').setAttribute('href', `movie-detail.html?movie-id=${
+                  movie.ID
+              }`);
+              movieClone.style.display = "flex";
+
+              container.appendChild(movieClone);
+          });
+      }
+
+      // Event listener for the search button
+      document.querySelector('#search-btn').addEventListener('click', function (event) {
+          event.preventDefault(); // Prevent form submission
+
+          const searchQuery = document.querySelector('input[type="search"]').value.toLowerCase();
+
+          const filteredMovies = moviesData.filter(movie => {
+              return movie.title.toLowerCase().includes(searchQuery) || movie.star.toLowerCase().includes(searchQuery) || movie.genres.some(genre => genre.toLowerCase().includes(searchQuery));
+          });
+
+          renderMovies(filteredMovies);
+      });
+
+      // Event listener for search field input
+      document.querySelector('#search-field').addEventListener('input', function (event) {
+          const searchQuery = event.target.value.toLowerCase();
+          const autocompleteDropdown = document.getElementById('autocomplete-dropdown');
+
+          // Filter movies based on search query
+          const matchedMovies = moviesData.filter(movie => movie.title.toLowerCase().includes(searchQuery));
+
+          // Populate autocomplete dropdown with matched movie titles
+          autocompleteDropdown.innerHTML = '';
+          matchedMovies.forEach(movie => {
+              const autocompleteItem = document.createElement('div');
+              autocompleteItem.classList.add('autocomplete-item');
+              autocompleteItem.textContent = movie.title;
+              autocompleteItem.addEventListener('click', function () {
+                  document.querySelector('#search-field').value = movie.title;
+                  autocompleteDropdown.style.display = 'none';
+              });
+              autocompleteDropdown.appendChild(autocompleteItem);
+          });
+
+          // Show/hide autocomplete dropdown based on search query length
+          if (searchQuery.length > 0) {
+              autocompleteDropdown.style.display = 'block';
+          } else {
+              autocompleteDropdown.style.display = 'none';
+          }
+      });
   </script>
 
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
